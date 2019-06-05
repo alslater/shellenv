@@ -1,0 +1,25 @@
+function ssha
+{
+	ssh -l aslate-admin $*
+}
+
+function sshal
+{
+	ssh -l aslate-local $*
+}
+
+function sshad 
+{
+  ssh -l aslate-ad $*
+}
+
+function xrdp
+{
+	xfreerdp /cert-ignore /u:aslate /size:1152x864 +fonts /v:${1} /t:${1} +aero \
+	/p:$(zenity \
+	--entry \
+	--title="${1}" \
+	--text="Enter your password:" \
+	--hide-text)
+}
+
