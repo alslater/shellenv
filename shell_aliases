@@ -7,3 +7,6 @@ if [ -d ${HOME}/awscli ]; then
 	alias awsproduk='${HOME}/awscli/bin/aws --profile=scl-prod-uk'
 	alias awsas='${HOME}/awscli/bin/aws --profile=as'
 fi
+
+[ -x /usr/bin/gawk ] && alias awk=/usr/bin/gawk
+ 
