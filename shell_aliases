@@ -1,1 +1,12 @@
 alias make=gmake
+
+if [ -d ${HOME}/awscli ]; then
+	alias awsdev='${HOME}/awscli/bin/aws --profile=scl-dev'
+	alias awsqa='${HOME}/awscli/bin/aws --profile=scl-qa'
+	alias awshq='${HOME}/awscli/bin/aws --profile=scl-hq'
+	alias awsproduk='${HOME}/awscli/bin/aws --profile=scl-prod-uk'
+	alias awsas='${HOME}/awscli/bin/aws --profile=as'
+fi
+
+[ -x /usr/bin/gawk ] && alias awk=/usr/bin/gawk
+ 
