@@ -1,30 +1,58 @@
-# Oracle settings
-export ORACLE_OWNER=oracle
-export ORACLE_BASE=/opt/scl64/oracle/11
-export ORACLE_HOME=$ORACLE_BASE
-export PATH=$PATH:$ORACLE_HOME
-export LD_LIBRARY_PATH_64=$ORACLE_HOME:$LD_LIBRARY_PATH_64
+platform=$(uname -s)
 
-# OmniOrb
-OMNIVER=4_1
-export OMNIROOT=/opt/scl64
-export OMNIORB_CONFIG=${HOME}/.omniorb/omniORB.cfg
-export OMNINAMES_LOGDIR=/var/tmp
+case ${platform} in
+  SunOS)
+	# Oracle settings
+	export ORACLE_OWNER=oracle
+	export ORACLE_BASE=/opt/scl64/oracle/11
+	export ORACLE_HOME=$ORACLE_BASE
+	export PATH=$PATH:$ORACLE_HOME
+	export LD_LIBRARY_PATH_64=$ORACLE_HOME:$LD_LIBRARY_PATH_64
 
-# Upos
-export UPOS1DBUSER=aslate
-export UPOS1DBALIAS=o9
-export UPOS1=~/upos1.64
-export UPOS1DEBUG=1
-export UPOS1RELEASE=${HOME}/dev/ultrapos/upos1/release
-export UPOSHOME=${HOME}/dev/ultrapos
-export UPOS1ROOT=${HOME}/dev/ultrapos/upos1
-export UPOS1DBPASSWORD=servo
-export UPOS1PLATFORM=omnios-x64-gcc4
-export M4T=${HOME}/dev/ultrapos/middleware
-export MW=${HOME}/dev/ultrapos/middleware
+	# OmniOrb
+	OMNIVER=4_1
+	export OMNIROOT=/opt/scl64
+	export OMNIORB_CONFIG=${HOME}/.omniorb/omniORB.cfg
+	export OMNINAMES_LOGDIR=/var/tmp
 
-export PATH=$PATH:$UPOS1/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UPOS1/lib
+	# Upos
+	export UPOS1DBUSER=aslate
+	export UPOS1DBALIAS=o9
+	export UPOS1=~/upos1.64
+	export UPOS1DEBUG=1
+	export UPOS1RELEASE=${HOME}/dev/ultrapos/upos1/release
+	export UPOSHOME=${HOME}/dev/ultrapos
+	export UPOS1ROOT=${HOME}/dev/ultrapos/upos1
+	export UPOS1DBPASSWORD=servo
+	export UPOS1PLATFORM=omnios-x64-gcc4
+	export M4T=${HOME}/dev/ultrapos/middleware
+	export MW=${HOME}/dev/ultrapos/middleware
 
+	export PATH=$PATH:$UPOS1/bin
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UPOS1/lib
+    ;;
 
+  Linux)
+	# OmniOrb
+	OMNIVER=4_1
+	export OMNIROOT=/
+	export OMNIORB_CONFIG=${HOME}/.omniorb/omniORB.cfg
+	export OMNINAMES_LOGDIR=/var/tmp
+
+	# Upos
+	export UPOS1DBUSER=aslate
+	export UPOS1DBALIAS=o9
+	export UPOS1=~/upos1
+	export UPOS1DEBUG=0
+	export UPOS1RELEASE=${HOME}/dev/ultrapos/upos1/release
+	export UPOSHOME=${HOME}/dev/ultrapos
+	export UPOS1ROOT=${HOME}/dev/ultrapos/upos1
+	export UPOS1DBPASSWORD=servo
+	export UPOS1PLATFORM=linux-x64-gcc9
+	export M4T=${HOME}/dev/ultrapos/middleware
+	export MW=${HOME}/dev/ultrapos/middleware
+
+	export PATH=$PATH:$UPOS1/bin
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UPOS1/lib
+  	;;
+esac
