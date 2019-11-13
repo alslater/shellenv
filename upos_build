@@ -29,7 +29,7 @@ case ${platform} in
 	export MW=${HOME}/dev/ultrapos/middleware
 
 	export PATH=$PATH:$UPOS1/bin
-	export LD_LIBRARY_PATH64=$LD_LIBRARY_PATH:$UPOS1/lib
+	export LD_LIBRARY_PATH_64=$LD_LIBRARY_PATH:$UPOS1/lib
     ;;
 
   Linux)
