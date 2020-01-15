@@ -56,3 +56,62 @@ case ${platform} in
 	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UPOS1/lib
   	;;
 esac
+
+function switch_env
+{
+	bookmark=${1}
+
+	if [ -z "${bookmark}" ]; then
+		echo "Usage: switch_env bookmark"
+		return 1
+	fi
+
+
+	UPOSDEVHOME=${UPOSHOME}
+	UPOSTGT=${UPOSHOME}_${bookmark}
+
+	echo "Checking ultrapos home symlink ${UPOSDEVHOME}..."
+	if [ ! -L ${UPOSDEVHOME} ]; then
+		echo "Error: ${UPOSDEVHOME} is not a symlink"
+		return 1
+	fi
+
+	echo "Checking ultrapos target ${UPOSTGT}"
+	if [ ! -d ${UPOSTGT} ]; then
+		echo "Error: ${UPOSTGT} does not exist or is not a folder"
+		return 1
+	fi
+
+	echo "Stopping any running servers..."
+	cd ${UPOSDEVHOME}/middleware/servers
+	[ -x ./ols ] && ./ols -shutdown 2>&1
+
+
+	cd ${UPOSHOME}/..
+
+	echo "Removing ultrapos home symlink ${UPOSDEVHOME}"
+	rm ${UPOSDEVHOME}
+
+	echo "Relinking ultrapos home symlink ${UPOSTGT}"
+	ln -s ${UPOSTGT} ${UPOSDEVHOME}
+
+	cd ${UPOSDEVHOME}
+	hg bookmarks | grep "\*"
+
+	if [ -x ${UPOSHOME}/middleware/cgw2/${UPOS1PLATFORM}/libcgw.so ]; then
+		echo "CGW module present, restarting apache"
+		~/apache/bin/apachectl restart
+	else
+		echo "CGW module not present, stopping apache"
+		~/apache/bin/apachectl stop
+	fi
+}
+
+function list_envs
+{
+	envs=${UPOSHOME}/../ultrapos_m*
+
+	for i in ${envs}; do
+		echo $(basename $i)
+	done
+}
