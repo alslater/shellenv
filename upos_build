@@ -2,16 +2,24 @@ platform=$(uname -s)
 
 case ${platform} in
   SunOS)
+    if [[ -d /opt/essiell2019 ]]; then
+      pkgsrc=/opt/essiell2019
+      export UPOS1PLATFORM=omnios-x64-gcc8
+    else
+      pkgsrc=/opt/scl64
+      export UPOS1PLATFORM=omnios-x64-gcc4
+    fi
+
 	# Oracle settings
 	export ORACLE_OWNER=oracle
-	export ORACLE_BASE=/opt/scl64/oracle/11
+	export ORACLE_BASE=${pkgsrc}/oracle/11
 	export ORACLE_HOME=$ORACLE_BASE
 	export PATH=$PATH:$ORACLE_HOME
 	export LD_LIBRARY_PATH_64=$ORACLE_HOME:$LD_LIBRARY_PATH_64
 
 	# OmniOrb
 	OMNIVER=4_1
-	export OMNIROOT=/opt/scl64
+	export OMNIROOT=${pkgsrc}
 	export OMNIORB_CONFIG=${HOME}/.omniorb/omniORB.cfg
 	export OMNINAMES_LOGDIR=/var/tmp
 
@@ -24,7 +32,7 @@ case ${platform} in
 	export UPOSHOME=${HOME}/dev/ultrapos
 	export UPOS1ROOT=${HOME}/dev/ultrapos/upos1
 	export UPOS1DBPASSWORD=servo
-	export UPOS1PLATFORM=omnios-x64-gcc4
+	#export UPOS1PLATFORM=omnios-x64-gcc4
 	export M4T=${HOME}/dev/ultrapos/middleware
 	export MW=${HOME}/dev/ultrapos/middleware
 
