@@ -5,6 +5,8 @@ case ${platform} in
     if [[ -d /opt/essiell2019 ]]; then
       pkgsrc=/opt/essiell2019
       export UPOS1PLATFORM=omnios-x64-gcc8
+      # For OI
+	  [ -x /usr/gcc/10/bin/gcc ] && PATH=/usr/gcc/10/bin:$PATH 
     else
       pkgsrc=/opt/scl64
       export UPOS1PLATFORM=omnios-x64-gcc4
@@ -120,9 +122,11 @@ function list_envs
 	envs="$(ls -d ${UPOSHOME}/../ultrapos_m* | grep -v maint) $(ls -d ${UPOSHOME}/../ultrapos_b* 2>/dev/null)"
 
 	for i in ${envs}; do
-		bn=$(basename ${i})
+    	if test -d ${i}; then
+		    bn=$(basename ${i})
     		tag=${bn/ultrapos_/}
-		printf "%s %s\n" ${bn} ${tag}
+			printf "%s %s\n" ${bn} ${tag}
+    	fi
 	done
 }
 
@@ -130,6 +134,6 @@ function current_env
 {
 	ln=$(readlink ${UPOSHOME})
 	bn=$(basename ${ln})
-        tag=${bn/ultrapos_/}
+    tag=${bn/ultrapos_/}
 	printf "%s %s\n" ${bn} ${tag}
 }
