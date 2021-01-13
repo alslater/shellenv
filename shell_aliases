@@ -9,4 +9,10 @@ if [ -d ${HOME}/awscli ]; then
 fi
 
 [ -x /usr/bin/gawk ] && alias awk=/usr/bin/gawk
-[ -x /opt/scl64/bin/thg ] && alias thg="LD_PRELOAD=/opt/scl64/lib/libGL.so:/opt/scl64/gcc8/x86_64-sun-solaris2.11/lib/amd64/libgcc_s.so.1 thg" 
+
+if test -x /opt/essiell2019/bin/thg; then
+	alias thg='LD_PRELOAD=/opt/essiell2019/lib/libGL.so /opt/essiell2019/bin/thg'
+elif test -x /opt/scl64/bin/thg; then
+	alias thg="LD_PRELOAD=/opt/scl64/lib/libGL.so:/opt/scl64/gcc8/x86_64-sun-solaris2.11/lib/amd64/libgcc_s.so.1 thg"
+fi
+
