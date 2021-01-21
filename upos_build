@@ -2,14 +2,22 @@ platform=$(uname -s)
 
 case ${platform} in
   SunOS)
-    if [[ -d /opt/essiell2019 ]]; then
-      pkgsrc=/opt/essiell2019
-      export UPOS1PLATFORM=omnios-x64-gcc8
-      # For OI
-	  [ -x /usr/gcc/10/bin/gcc ] && PATH=/usr/gcc/10/bin:$PATH 
+    if [ -z "${UPOS1TRAD}" ]; then
+      if [[ -d /opt/essiell2019 ]]; then
+        pkgsrc=/opt/essiell2019
+        export UPOS1PLATFORM=omnios-x64-gcc
+        # For OI
+  	    [ -x /usr/gcc/10/bin/gcc ] && PATH=/usr/gcc/10/bin:$PATH 
+	    export UPOS1=~/upos1.64
+      else
+        pkgsrc=/opt/scl64
+        export UPOS1PLATFORM=omnios-x64-gcc4
+	    export UPOS1=~/upos1.64.gcc4
+      fi
     else
       pkgsrc=/opt/scl64
       export UPOS1PLATFORM=omnios-x64-gcc4
+	  export UPOS1=~/upos1.64.gcc4
     fi
 
 	# Oracle settings
@@ -28,7 +36,6 @@ case ${platform} in
 	# Upos
 	export UPOS1DBUSER=aslate
 	export UPOS1DBALIAS=o9
-	export UPOS1=~/upos1.64
 	export UPOS1DEBUG=1
 	export UPOS1RELEASE=${HOME}/dev/ultrapos/upos1/release
 	export UPOSHOME=${HOME}/dev/ultrapos
@@ -53,12 +60,12 @@ case ${platform} in
 	export UPOS1DBUSER=aslate
 	export UPOS1DBALIAS=o9
 	export UPOS1=~/upos1
-	export UPOS1DEBUG=0
+	export UPOS1DEBUG=1
 	export UPOS1RELEASE=${HOME}/dev/ultrapos/upos1/release
 	export UPOSHOME=${HOME}/dev/ultrapos
 	export UPOS1ROOT=${HOME}/dev/ultrapos/upos1
 	export UPOS1DBPASSWORD=servo
-	export UPOS1PLATFORM=linux-x64-gcc9
+	export UPOS1PLATFORM=linux-x64-gcc
 	export M4T=${HOME}/dev/ultrapos/middleware
 	export MW=${HOME}/dev/ultrapos/middleware
 
