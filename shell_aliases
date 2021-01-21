@@ -1,4 +1,7 @@
-alias make=gmake
+case ${platform} in
+  SunOS)alias make=gmake
+  ;;
+esac
 
 if [ -d ${HOME}/awscli ]; then
 	alias awsdev='${HOME}/awscli/bin/aws --profile=scl-dev'
