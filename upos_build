@@ -71,6 +71,16 @@ case ${platform} in
 
 	export PATH=$PATH:$UPOS1/bin
 	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UPOS1/lib
+
+	if [ -d /opt/oracle/instantclient_21_1 ]; then
+		export ORACLE11_HOME=/opt/oracle/instantclient_21_1
+		export PATH=${ORACLE11_HOME}:${PATH}
+	else
+		export ORACLE11_HOME=${UPOS1ROOT}/../vendor/${UPOS1PLATFORM}/oracle/instantclient_21_1
+		export PATH=${ORACLE11_HOME}:${PATH}
+	fi
+	export LD_LIBRARY_PATH=${ORACLE11_HOME}:${LD_LIBRARY_PATH}
+
   	;;
 esac
 
