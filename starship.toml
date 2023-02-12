@@ -1,0 +1,78 @@
+
+format = '$all$sudo$character'
+
+#format = """
+#[╭─user───❯](bold blue) $username
+#[┣─system─❯](bold yellow) $hostname
+#[┣─project❯](bold red) #directory$rust$git_branch$git_status$package$golang$terraform$docker_context$python$docker_context$nodejs
+#[╰─cmd────❯](bold green) 
+
+# """
+
+[username]
+style_user = "yellow"
+style_root = "red bold"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = '@[$ssh_symbol$hostname]($style) '
+trim_at = "."
+disabled = false
+style = 'bold green'
+
+[character]                            # The name of the module we are configuring is "character"
+success_symbol = "[-➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
+error_symbol = "[✗➜](bold red)"
+
+[hg_branch]
+#format = 'on [hg  $branch](bold purple) '
+#truncation_length = 4
+#truncation_symbol = ''
+disabled = false
+
+[python]
+#symbol = '🐉'
+
+[aws]
+disabled = true
+
+[shlvl]
+disabled = false
+threshold = 1
+
+[sudo]
+disabled = false
+symbol = '[!](bold red)'
+format = '[$symbol]($style)'
+
+[custom.giturl]
+# disabled = true
+description = "Display symbol for remote Git server"
+command = """
+GIT_REMOTE=$(command git ls-remote --get-url 2> /dev/null)
+if [[ "$GIT_REMOTE" =~ "github" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+elif [[ "$GIT_REMOTE" =~ "gitlab" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+elif [[ "$GIT_REMOTE" =~ "bitbucket" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+elif [[ "$GIT_REMOTE" =~ "git" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+else
+    GIT_REMOTE_SYMBOL=" "
+fi
+echo "$GIT_REMOTE_SYMBOL "
+"""
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+format = "[$output ](bold purple)"
+
+
+[custom.vpn]
+# disabled = true
+description = "Display VPN status"
+command ='/scripts/check-vpn.sh'
+format = "[$output ](bold green)"
+
