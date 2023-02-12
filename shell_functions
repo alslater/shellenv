@@ -33,3 +33,68 @@ function xrdpf
 	--hide-text)
 }
 
+function pkgsrcmeld16
+{
+	echo /usr/bin/meld ${1} ~/pkgsrc/2016Q4/$(basename pwd)/${1}
+	/usr/bin/meld ${1} ~/pkgsrc/2016Q4/$(basename $(pwd))/${1}
+}
+
+function pkgsrcmeld16a
+{
+	echo /usr/bin/meld ${1} ~/pkgsrc/2016Q4/${1}
+	/usr/bin/meld ${1} ~/pkgsrc/2016Q4/${1}
+}
+
+function pkgsrcmeld19
+{
+	echo /usr/bin/meld ${1} ~/pkgsrc/2019Q4/$(basename pwd)/${1}
+	/usr/bin/meld ${1} ~/pkgsrc/2019Q4/$(basename $(pwd))/${1}
+}
+
+function pkgsrcmeld19a
+{
+	echo /usr/bin/meld ${1} ~/pkgsrc/2019Q4/${1}
+	/usr/bin/meld ${1} ~/pkgsrc/2019Q4/${1}
+}
+
+function awsdev_docker_aggregator_login
+{
+	awsdev ecr get-login-password | docker login --username AWS --password-stdin 076834547126.dkr.ecr.eu-west-1.amazonaws.com/watchman-aggregator
+}
+
+function awsdev_docker_aggregator_tag
+{
+	if [ -n "${1}" ]; then 
+	  ftag=":${1}"
+	else
+	  ftag=":latest"
+	fi
+
+	if [ -n "${2}" ]; then 
+	  ttag=":${2}"
+	else
+	  ttag=":latest"
+	fi
+
+	docker image tag watchman_aggregator${ftag} 076834547126.dkr.ecr.eu-west-1.amazonaws.com/watchman-aggregator${ttag}
+}
+
+function awsdev_docker_aggregator_push
+{
+	if [ -n "${1}" ]; then 
+	  tag=":${1}"
+	else
+	  tag=":latest"
+	fi
+	awsdev_docker_aggregator_login
+	docker image push 076834547126.dkr.ecr.eu-west-1.amazonaws.com/watchman-aggregator${tag}
+}
+
+function activate
+{
+    if [ -d venv ]; then
+        . venv/bin/activate
+    elif  [ -d .venv ]; then
+        . .venv/bin/activate
+    fi
+}
