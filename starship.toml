@@ -1,6 +1,8 @@
 
 format = '${custom.vpn}$all${custom.giturl}$git_branch$git_status$hg_branch$sudo$character'
 
+command_timeout = 2000
+
 [username]
 style_user = "yellow"
 style_root = "red bold"
@@ -15,9 +17,12 @@ trim_at = "."
 disabled = false
 style = 'bold green'
 
-[character]                            # The name of the module we are configuring is "character"
-success_symbol = "[-➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
+[character]
+success_symbol = "[-➜](bold green)"
 error_symbol = "[✗➜](bold red)"
+
+[cmd_duration]
+show_milliseconds = true
 
 [git_branch]
 format = '[$symbol$branch(:$remote_branch)]($style) '
@@ -28,7 +33,7 @@ style = 'purple bold'
 format = '[☿ $symbol$branch]($style) '
 
 [python]
-#symbol = '🐉'
+symbol = ' '
 
 [aws]
 disabled = true
@@ -70,4 +75,5 @@ description = "Display VPN status"
 command ='~/scripts/vpn-prompt.sh'
 format = "[$output ](bold green)"
 when = true
+#command_timeout = 2000
 
