@@ -84,6 +84,8 @@ case ${platform} in
   	;;
 esac
 
+export UPOSSPECIALS=~/dev/ultrapos_specials
+
 function switch_env
 {
 	bookmark=${1}
@@ -125,7 +127,7 @@ function switch_env
 	cd ${UPOSDEVHOME}
 	hg bookmarks | grep "\*"
 
-	if [ -x ${UPOSHOME}/middleware/cgw2/${UPOS1PLATFORM}/libcgw.so ]; then
+	if [ -x ${UPOSDEVHOME}/middleware/cgw2/${UPOS1PLATFORM}/libcgw.so ]; then
 		echo "CGW module present, restarting apache"
 		~/apache/bin/apachectl restart
 	else
@@ -153,4 +155,71 @@ function current_env
 	bn=$(basename ${ln})
     tag=${bn/ultrapos_/}
 	printf "%s %s\n" ${bn} ${tag}
+}
+
+function copy_specials {
+	if [[ -z ${1} ]]; then
+		echo "Usage:"
+		echo "   copy_specials NAME [ REVISION ]"
+		echo
+		echo "Copies the specials for the named client into your currently configured working area. This means"
+		echo "you must have used 'setver' before you use this command."
+		echo "You will need to do this before you can run UltraPoS."
+		echo
+		echo "NAME is the client/branch name to copy, and can be 'standard' for the base files."
+		echo "REVISION is the optional mercurial revision you need. Without this the tip of the branch"
+		echo "will be copied."
+		echo 
+		echo "If you want to set up to work with a specific client, then you will need to copy standard"
+		echo "AND the client, bearing in mind you may need to specify different revisions for each. Eg"
+		echo
+		echo "   copy_specials standard up_2_9"
+		echo "   copy_specials mandsbank"
+		echo
+		echo "If $UPOSSPECIALS is set it will be taken as the directory containing the repository to copy from."
+		echo "Otherwise the current directory will be used, which must be the root of the repository."
+		echo 
+		echo "NOTE: May change your CWD and WILL update the specials repository - make sure you've got no pending"
+		echo "updates."
+		echo "NOTE: Does NOT copy client reports (to avoid accidental commits to the wrong place). If you need them"
+		echo "then copy them manually, remembering to undo any changes before you commit other changes."
+		return 1
+	fi
+
+	if [[ -z ${UPOSHOME} ]]; then
+		echo "UPOSHOME is not set"
+		return 1
+	fi
+
+	# Get the files.
+	if [[ -z ${UPOSSPECIALS} ]]; then
+		spec_dir=`pwd`
+	else
+		spec_dir=${UPOSSPECIALS}
+	fi
+	cd ${spec_dir}
+
+	if [[ ! -z ${2} ]]; then
+		rev="-r ${2}"
+	else
+		rev=""
+	fi
+	if [[ ! -f .hg/hgrc ]]; then
+		echo "Not in the root of a repository. You must run this from the root of the specials repository"
+		echo "or have UPOSSPECIALS set."
+		return 1
+	fi
+	hg -q update ${rev} ${1} 
+	if [[ $? != 0 ]]; then
+		echo "hg update failed"
+		return 1
+	fi	
+
+	# Got the files, put them where they should be	
+	if [[ -d ui ]]; then
+		cp -r ui ${UPOSHOME}
+	fi	
+	if [[ -d webroot ]]; then
+		cp -r webroot ${UPOSHOME}
+	fi
 }

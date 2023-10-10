@@ -98,3 +98,19 @@ function activate
         . .venv/bin/activate
     fi
 }
+
+function gpip() {
+  PIP_REQUIRE_VIRTUALENV="" pip "$@"
+}
+
+
+function runcompli {
+    pushd ~/dev/compli/local
+    mkdir -p logs
+    compli start
+}
+    
+
+
+
+

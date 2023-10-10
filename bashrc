@@ -1,1 +1,2 @@
 export PIPENV_VENV_IN_PROJECT=true
+export PIP_REQUIRE_VIRTUALENV=true
